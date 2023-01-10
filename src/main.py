@@ -5,9 +5,9 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # Firestore setup
-# cred = credentials.ApplicationDefault()
-# firebase_admin.initialize_app(cred)
-# db = firestore.client()
+cred = credentials.ApplicationDefault()
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 
 async def makeFsDoc(dict, uuid):
