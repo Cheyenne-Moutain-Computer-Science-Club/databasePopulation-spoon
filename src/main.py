@@ -5,14 +5,15 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # Firestore setup
-cred = credentials.ApplicationDefault()
+cred = credentials.Certificate("config.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
-async def makeFsDoc(dict, uuid):
-    doc_ref = db.collection("users").document(uuid)
-    await doc_ref.set(dict)
+def makeFsDoc(dict, uuid):
+    doc_ref = db.collection(u'users').document(uuid)
+    doc_ref.set(dict)
+
 
 outList = []
 
@@ -51,7 +52,7 @@ async def parser():
             outList.append(ref)
 
             # Add to Firestore
-            await makeFsDoc(x, uuid)
+            makeFsDoc(x, uuid)
 
 
 async def outputWriter():

@@ -3,3 +3,5 @@ input.csv
 
 # Output spreadsheet
 out.csv
+
+config.json
