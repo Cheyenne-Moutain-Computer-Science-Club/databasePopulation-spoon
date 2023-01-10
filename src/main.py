@@ -16,6 +16,7 @@ def makeFsDoc(dict, uuid):
 
 
 outList = []
+idList = []
 
 
 async def parser():
@@ -25,7 +26,6 @@ async def parser():
         keys = next(raw)
         data = [dict(zip(keys, values)) for values in raw]
 
-        idList = []
         for x in data:
             # Generate unique UUID
             uuid = str(random.randrange(10000000, 99999999))
@@ -64,5 +64,16 @@ async def outputWriter():
         for data in outList:
             writer.writerow(data)
 
-asyncio.run(parser())
-asyncio.run(outputWriter())
+# asyncio.run(parser())
+# asyncio.run(outputWriter())
+
+# Update global doc
+# Get existing data
+global_ref = db.collection(u'users').document("global")
+global_doc = global_ref.get()
+active = global_doc.to_dict()["activeIds"]
+# Add new data
+for x in idList:
+    active.append(x)
+global_doc.to_dict().update(activeIds=active)
+global_ref.set(global_doc)
