@@ -53,6 +53,7 @@ async def parser():
 
             # Add to Firestore
             makeFsDoc(x, uuid)
+            print("Parsing...")
 
 
 async def outputWriter():
@@ -63,9 +64,10 @@ async def outputWriter():
         writer.writeheader
         for data in outList:
             writer.writerow(data)
+            print("Writing...")
 
-# asyncio.run(parser())
-# asyncio.run(outputWriter())
+asyncio.run(parser())
+asyncio.run(outputWriter())
 
 # Update global doc
 # Get existing data
@@ -74,6 +76,7 @@ global_doc = global_ref.get()
 active = global_doc.to_dict()["activeIds"]
 # Add new data
 for x in idList:
-    active.append(x)
+    active.append(int(x))
 global_doc.to_dict().update(activeIds=active)
-global_ref.set(global_doc)
+db.collection(u'users').document('global').update({"activeIds": active})
+print("Done!")
